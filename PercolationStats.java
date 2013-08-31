@@ -1,6 +1,12 @@
 public class PercolationStats {
     public PercolationStats(int N, int T) {
         // perform T independent computational experiments on an N-by-N grid
+        if (N <= 0) {
+            throw IllegalArgumentException("N is lower or equal than 0");
+        }
+        if (T <= 0) {
+            throw IllegalArgumentException("T is lower or equal than 0");
+        }
     }
 
     public double mean() {
