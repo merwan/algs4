@@ -1,6 +1,5 @@
 public class PercolationStats {
 	private double[] tries;
-	private int N;
 	private int T;
 
 	/***
@@ -18,7 +17,6 @@ public class PercolationStats {
 		if (T <= 0) {
 			throw new IllegalArgumentException("T is lower or equal than 0");
 		}
-		this.N = N;
 		this.T = T;
 
 		tries = new double[T];
