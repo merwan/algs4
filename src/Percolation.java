@@ -10,7 +10,7 @@ public class Percolation {
             grid[i] = false;
         }
     }
-    
+
     private void checkBounds(int i, int j) {
         if (i < 1 || i > N) throw new IndexOutOfBoundsException("row index i out of bounds");
         if (j < 1 || j > N) throw new IndexOutOfBoundsException("column index j out of bounds");
@@ -37,8 +37,8 @@ public class Percolation {
     private int val = 20000 + StdRandom.uniform(7200);
     public boolean percolates() {
         // does the system percolate?
-        count++;
-        
+    	count++;
+    	
         return count == val;
     }
 }
