@@ -1,14 +1,18 @@
 public class Percolation {
-	private boolean[] grid;
-	private int N;
+	private final boolean[][] grid;
+	private final int N;
+	private final WeightedQuickUnionUF uf;
 
+	/***
+	 * create N-by-N grid, with all sites blocked
+	 * 
+	 * @param N
+	 *            size of the grid
+	 */
 	public Percolation(int N) {
 		this.N = N;
-		grid = new boolean[N * N + 2];
-		// create N-by-N grid, with all sites blocked
-		for (int i = 0; i <= N * N + 1; i++) {
-			grid[i] = false;
-		}
+		grid = new boolean[N][N];
+		uf = new WeightedQuickUnionUF(1 + N * N + 1);
 	}
 
 	private void checkBounds(int i, int j) {
@@ -18,30 +22,104 @@ public class Percolation {
 			throw new IndexOutOfBoundsException("column index j out of bounds");
 	}
 
+	private int getIndex(int i, int j) {
+		return (i - 1) * N + j;
+	}
+
+	/***
+	 * open site (row i, column j) if it is not already
+	 * 
+	 * @param i
+	 *            row
+	 * @param j
+	 *            column
+	 */
 	public void open(int i, int j) {
 		checkBounds(i, j);
-		// open site (row i, column j) if it is not already
+		if (isOpen(i, j)) {
+			return;
+		}
+		grid[i - 1][j - 1] = true;
+		connectTop(i, j);
+		connectBottom(i, j);
+		connectLeft(i, j);
+		connectRight(i, j);
 	}
 
+	private void connectRight(int i, int j) {
+		if (j == N) {
+			return;
+		}
+
+		int index = getIndex(i, j);
+		int target = getIndex(i, j + 1);
+		uf.union(index, target);
+	}
+
+	private void connectLeft(int i, int j) {
+		if (j == 1) {
+			return;
+		}
+
+		int index = getIndex(i, j);
+		int target = getIndex(i, j - 1);
+		uf.union(index, target);
+	}
+
+	private void connectBottom(int i, int j) {
+		int index = getIndex(i, j);
+		int target;
+		if (i == N) {
+			target = N * N + 1;
+		} else {
+			target = getIndex(i + 1, j);
+		}
+		uf.union(index, target);
+	}
+
+	private void connectTop(int i, int j) {
+		int index = getIndex(i, j);
+		int target;
+		if (i == 1) {
+			target = 0;
+		} else {
+			target = getIndex(i - 1, j);
+		}
+		uf.union(index, target);
+	}
+
+	/***
+	 * is site (row i, column j) open?
+	 * 
+	 * @param i
+	 *            row
+	 * @param j
+	 *            column
+	 * @return true is site is open
+	 */
 	public boolean isOpen(int i, int j) {
 		checkBounds(i, j);
-		// is site (row i, column j) open?
-		return grid[(i - 1) * N + j] == true;
+		return grid[i - 1][j - 1] == true;
 	}
 
+	/***
+	 * is site (row i, column j) full?
+	 * 
+	 * @param i
+	 * @param j
+	 * @return true if site is full
+	 */
 	public boolean isFull(int i, int j) {
 		checkBounds(i, j);
-		// is site (row i, column j) full?
-		return grid[(i - 1) * N + j] == false;
+		return grid[i - 1][j - 1] == false;
 	}
 
-	private int count;
-	private int val = 20000 + StdRandom.uniform(7200);
-
+	/***
+	 * does the system percolate?
+	 * 
+	 * @return true if the system percolates
+	 */
 	public boolean percolates() {
-		// does the system percolate?
-		count++;
-
-		return count == val;
+		return uf.connected(0, N * N + 1);
 	}
 }
