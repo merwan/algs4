@@ -51,9 +51,11 @@ public class Percolation {
 			return;
 		}
 
-		int index = getIndex(i, j);
-		int target = getIndex(i, j + 1);
-		uf.union(index, target);
+		if (isOpen(i, j + 1)) {
+			int index = getIndex(i, j);
+			int target = getIndex(i, j + 1);
+			uf.union(index, target);
+		}
 	}
 
 	private void connectLeft(int i, int j) {
@@ -61,9 +63,11 @@ public class Percolation {
 			return;
 		}
 
-		int index = getIndex(i, j);
-		int target = getIndex(i, j - 1);
-		uf.union(index, target);
+		if (isOpen(i, j - 1)) {
+			int index = getIndex(i, j);
+			int target = getIndex(i, j - 1);
+			uf.union(index, target);
+		}
 	}
 
 	private void connectBottom(int i, int j) {
@@ -71,10 +75,13 @@ public class Percolation {
 		int target;
 		if (i == N) {
 			target = N * N + 1;
-		} else {
-			target = getIndex(i + 1, j);
+			uf.union(index, target);
+			return;
 		}
-		uf.union(index, target);
+		if (isOpen(i + 1, j)) {
+			target = getIndex(i + 1, j);
+			uf.union(index, target);
+		}
 	}
 
 	private void connectTop(int i, int j) {
@@ -82,10 +89,13 @@ public class Percolation {
 		int target;
 		if (i == 1) {
 			target = 0;
-		} else {
-			target = getIndex(i - 1, j);
+			uf.union(index, target);
+			return;
 		}
-		uf.union(index, target);
+		if (isOpen(i - 1, j)) {
+			target = getIndex(i - 1, j);
+			uf.union(index, target);
+		}
 	}
 
 	/***
