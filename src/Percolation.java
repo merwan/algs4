@@ -11,7 +11,7 @@ public class Percolation {
      */
     public Percolation(int N) {
         this.N = N;
-        grid = new boolean[N][N];
+        grid = new boolean[N + 1][N + 1];
         uf = new WeightedQuickUnionUF(1 + N * N + 1);
     }
 
@@ -22,7 +22,7 @@ public class Percolation {
             throw new IndexOutOfBoundsException("column index j out of bounds");
     }
 
-    private int getIndex(int i, int j) {
+    private int xyTo1D(int i, int j) {
         return (i - 1) * N + j;
     }
 
@@ -39,7 +39,7 @@ public class Percolation {
         if (isOpen(i, j)) {
             return;
         }
-        grid[i - 1][j - 1] = true;
+        grid[i][j] = true;
         connectTop(i, j);
         connectBottom(i, j);
         connectLeft(i, j);
@@ -52,8 +52,8 @@ public class Percolation {
         }
 
         if (isOpen(i, j + 1)) {
-            int index = getIndex(i, j);
-            int target = getIndex(i, j + 1);
+            int index = xyTo1D(i, j);
+            int target = xyTo1D(i, j + 1);
             uf.union(index, target);
         }
     }
@@ -64,14 +64,14 @@ public class Percolation {
         }
 
         if (isOpen(i, j - 1)) {
-            int index = getIndex(i, j);
-            int target = getIndex(i, j - 1);
+            int index = xyTo1D(i, j);
+            int target = xyTo1D(i, j - 1);
             uf.union(index, target);
         }
     }
 
     private void connectBottom(int i, int j) {
-        int index = getIndex(i, j);
+        int index = xyTo1D(i, j);
         int target;
         if (i == N) {
             target = N * N + 1;
@@ -79,13 +79,13 @@ public class Percolation {
             return;
         }
         if (isOpen(i + 1, j)) {
-            target = getIndex(i + 1, j);
+            target = xyTo1D(i + 1, j);
             uf.union(index, target);
         }
     }
 
     private void connectTop(int i, int j) {
-        int index = getIndex(i, j);
+        int index = xyTo1D(i, j);
         int target;
         if (i == 1) {
             target = 0;
@@ -93,7 +93,7 @@ public class Percolation {
             return;
         }
         if (isOpen(i - 1, j)) {
-            target = getIndex(i - 1, j);
+            target = xyTo1D(i - 1, j);
             uf.union(index, target);
         }
     }
@@ -109,7 +109,7 @@ public class Percolation {
      */
     public boolean isOpen(int i, int j) {
         checkBounds(i, j);
-        return grid[i - 1][j - 1];
+        return grid[i][j];
     }
 
     /***
@@ -120,8 +120,7 @@ public class Percolation {
      * @return true if site is full
      */
     public boolean isFull(int i, int j) {
-        checkBounds(i, j);
-        return !grid[i - 1][j - 1];
+        return !isOpen(i, j);
     }
 
     /***
