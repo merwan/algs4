@@ -40,11 +40,7 @@ public class PercolationStats {
 	 * @return sample mean of percolation threshold
 	 */
 	public double mean() {
-		double sum = 0;
-		for (int i = 0; i < T; i++) {
-			sum += tries[i];
-		}
-		return sum / T;
+	    return StdStats.mean(tries);
 	}
 
 	/***
@@ -52,12 +48,7 @@ public class PercolationStats {
 	 * @return sample standard deviation of percolation threshold
 	 */
 	public double stddev() {
-		double mean = mean();
-		double sum = 0;
-		for (int i = 0; i < T; i++) {
-			sum += Math.pow(tries[i] - mean, 2);
-		}
-		return sum / (T - 1);
+	    return StdStats.stddev(tries);
 	}
 
 	/***
