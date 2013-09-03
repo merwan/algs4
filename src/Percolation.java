@@ -120,7 +120,9 @@ public class Percolation {
      * @return true if site is full
      */
     public boolean isFull(int i, int j) {
-        checkBounds(i, j);
+        if (!isOpen(i, j)) {
+            return false;
+        }
         int site = xyTo1D(i, j);
         return uf.connected(0, site);
     }
