@@ -133,6 +133,9 @@ public class Percolation {
      * @return true if the system percolates
      */
     public boolean percolates() {
+        if (N == 1) {
+            return isOpen(1, 1);
+        }
         return uf.connected(0, N * N + 1);
     }
 }
