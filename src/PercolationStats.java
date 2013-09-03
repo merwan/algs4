@@ -26,7 +26,7 @@ public class PercolationStats {
             while (!percolation.percolates()) {
                 int row = StdRandom.uniform(N) + 1;
                 int column = StdRandom.uniform(N) + 1;
-                if (percolation.isFull(row, column)) {
+                if (!percolation.isOpen(row, column)) {
                     threshold++;
                     percolation.open(row, column);
                 }

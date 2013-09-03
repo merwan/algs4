@@ -13,6 +13,12 @@ public class Percolation {
         this.N = N;
         grid = new boolean[N + 1][N + 1];
         uf = new WeightedQuickUnionUF(1 + N * N + 1);
+        for (int i = 1; i <= N; i++) {
+            // Connect top
+            uf.union(0, i);
+            // Connect bottom
+            uf.union(N * N - i + 1, N * N + 1);
+        }
     }
 
     private void checkBounds(int i, int j) {
@@ -71,29 +77,23 @@ public class Percolation {
     }
 
     private void connectBottom(int i, int j) {
-        int index = xyTo1D(i, j);
-        int target;
         if (i == N) {
-            target = N * N + 1;
-            uf.union(index, target);
             return;
         }
         if (isOpen(i + 1, j)) {
-            target = xyTo1D(i + 1, j);
+            int index = xyTo1D(i, j);
+            int target = xyTo1D(i + 1, j);
             uf.union(index, target);
         }
     }
 
     private void connectTop(int i, int j) {
-        int index = xyTo1D(i, j);
-        int target;
         if (i == 1) {
-            target = 0;
-            uf.union(index, target);
             return;
         }
         if (isOpen(i - 1, j)) {
-            target = xyTo1D(i - 1, j);
+            int index = xyTo1D(i, j);
+            int target = xyTo1D(i - 1, j);
             uf.union(index, target);
         }
     }
@@ -120,7 +120,9 @@ public class Percolation {
      * @return true if site is full
      */
     public boolean isFull(int i, int j) {
-        return !isOpen(i, j);
+        checkBounds(i, j);
+        int site = xyTo1D(i, j);
+        return uf.connected(0, site);
     }
 
     /***
