@@ -2,6 +2,7 @@ public class Percolation {
     private final boolean[][] grid;
     private final int N;
     private final WeightedQuickUnionUF uf;
+    private final WeightedQuickUnionUF isFullUF;
 
     /***
      * create N-by-N grid, with all sites blocked
@@ -13,9 +14,10 @@ public class Percolation {
         this.N = N;
         grid = new boolean[N + 1][N + 1];
         uf = new WeightedQuickUnionUF(1 + N * N + 1);
+        isFullUF = new WeightedQuickUnionUF(1 + N * N);
         for (int i = 1; i <= N; i++) {
             // Connect top
-            uf.union(0, i);
+            union(0, i);
             // Connect bottom
             uf.union(N * N - i + 1, N * N + 1);
         }
@@ -30,6 +32,11 @@ public class Percolation {
 
     private int xyTo1D(int i, int j) {
         return (i - 1) * N + j;
+    }
+
+    private void union(int p, int q) {
+        uf.union(p, q);
+        isFullUF.union(p, q);
     }
 
     /***
@@ -60,7 +67,7 @@ public class Percolation {
         if (isOpen(i, j + 1)) {
             int index = xyTo1D(i, j);
             int target = xyTo1D(i, j + 1);
-            uf.union(index, target);
+            union(index, target);
         }
     }
 
@@ -72,7 +79,7 @@ public class Percolation {
         if (isOpen(i, j - 1)) {
             int index = xyTo1D(i, j);
             int target = xyTo1D(i, j - 1);
-            uf.union(index, target);
+            union(index, target);
         }
     }
 
@@ -83,7 +90,7 @@ public class Percolation {
         if (isOpen(i + 1, j)) {
             int index = xyTo1D(i, j);
             int target = xyTo1D(i + 1, j);
-            uf.union(index, target);
+            union(index, target);
         }
     }
 
@@ -94,7 +101,7 @@ public class Percolation {
         if (isOpen(i - 1, j)) {
             int index = xyTo1D(i, j);
             int target = xyTo1D(i - 1, j);
-            uf.union(index, target);
+            union(index, target);
         }
     }
 
@@ -124,7 +131,7 @@ public class Percolation {
             return false;
         }
         int site = xyTo1D(i, j);
-        return uf.connected(0, site);
+        return isFullUF.connected(0, site);
     }
 
     /***
