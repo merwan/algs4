@@ -1,4 +1,10 @@
 public class Deque<Item> implements Iterable<Item> {
+    private Node first = null;
+
+    private class Node {
+        Item item;
+        Node next;
+    }
 
     /*
      * construct an empty deque
@@ -10,14 +16,14 @@ public class Deque<Item> implements Iterable<Item> {
      * is the deque empty?
      */
     public boolean isEmpty() {
-        return false;
+        return first == null;
     }
 
     /*
      * return the number of items on the deque
      */
     public int size() {
-        return -1;
+        return first != null ? 1 : 0;
     }
 
     private void checkAdd(Item item) {
@@ -31,6 +37,8 @@ public class Deque<Item> implements Iterable<Item> {
      */
     public void addFirst(Item item) {
         checkAdd(item);
+        first = new Node();
+        first.item = item;
     }
 
     /*
@@ -64,6 +72,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     /*
      * return an iterator over items in order from front to end
+     * 
      * @see java.lang.Iterable#iterator()
      */
     public java.util.Iterator<Item> iterator() {
