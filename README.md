@@ -1,4 +1,9 @@
-algs4-percolation
+percolation
+===========
+
+Programming Assignment 1: Percolation 
+
+randomized-queues
 =================
 
-Programming assignment for week 1 of Algorithms: Percolation
+Programming Assignment 2: Randomized Queues and Deques
