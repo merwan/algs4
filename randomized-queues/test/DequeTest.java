@@ -67,4 +67,17 @@ public class DequeTest {
         assertEquals(1, i);
         assertEquals(0, this.deque.size());
     }
+
+    @Test
+    public void iterateDeque() {
+        this.deque.addLast(1);
+        this.deque.addLast(2);
+        this.deque.addLast(3);
+        int expected = 1;
+        for (int i : deque) {
+            assertEquals(expected, i);
+            expected++;
+        }
+        assertEquals(4, expected);
+    }
 }
