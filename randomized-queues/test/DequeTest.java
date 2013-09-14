@@ -30,9 +30,25 @@ public class DequeTest {
     }
 
     @Test
-    public void removeFirstRemoveFromQueue() {
+    public void removeFirstRemovesFromQueue() {
         this.deque.addFirst(1);
         int i = this.deque.removeFirst();
+        assertEquals(0, this.deque.size());
+        assertTrue(this.deque.isEmpty());
+        assertEquals(1, i);
+    }
+
+    @Test
+    public void addLastAddsToDeque() {
+        this.deque.addLast(1);
+        assertEquals(1, this.deque.size());
+        assertFalse(this.deque.isEmpty());
+    }
+
+    @Test
+    public void removeLastRemovesFromDeque() {
+        this.deque.addLast(1);
+        int i = this.deque.removeLast();
         assertEquals(0, this.deque.size());
         assertTrue(this.deque.isEmpty());
         assertEquals(1, i);

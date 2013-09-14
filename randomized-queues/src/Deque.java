@@ -48,6 +48,9 @@ public class Deque<Item> implements Iterable<Item> {
      */
     public void addLast(Item item) {
         checkAdd(item);
+        first = new Node();
+        first.item = item;
+        size++;
     }
 
     private void checkRemove() {
@@ -70,7 +73,8 @@ public class Deque<Item> implements Iterable<Item> {
      */
     public Item removeLast() {
         checkRemove();
-        return null;
+        size--;
+        return first.item;
     }
 
     /*
