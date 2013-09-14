@@ -1,9 +1,10 @@
 public class Deque<Item> implements Iterable<Item> {
     private Node first = null;
+    private int size = 0;
 
     private class Node {
-        Item item;
-        Node next;
+        private Item item;
+        private Node next;
     }
 
     /*
@@ -16,14 +17,14 @@ public class Deque<Item> implements Iterable<Item> {
      * is the deque empty?
      */
     public boolean isEmpty() {
-        return first == null;
+        return size() == 0;
     }
 
     /*
      * return the number of items on the deque
      */
     public int size() {
-        return first != null ? 1 : 0;
+        return size;
     }
 
     private void checkAdd(Item item) {
@@ -39,6 +40,7 @@ public class Deque<Item> implements Iterable<Item> {
         checkAdd(item);
         first = new Node();
         first.item = item;
+        size++;
     }
 
     /*
@@ -59,7 +61,8 @@ public class Deque<Item> implements Iterable<Item> {
      */
     public Item removeFirst() {
         checkRemove();
-        return null;
+        size--;
+        return first.item;
     }
 
     /*

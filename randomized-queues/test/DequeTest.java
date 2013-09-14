@@ -6,7 +6,7 @@ import org.junit.Test;
 public class DequeTest {
 
     private Deque<Integer> deque;
-    
+
     @Before
     public void setUp() {
         this.deque = new Deque<Integer>();
@@ -21,11 +21,20 @@ public class DequeTest {
     public void newDequeSizeIs0() {
         assertEquals(0, this.deque.size());
     }
-    
+
     @Test
     public void addFirstAddsToDeque() {
         this.deque.addFirst(1);
         assertEquals(1, this.deque.size());
         assertFalse(this.deque.isEmpty());
+    }
+
+    @Test
+    public void removeFirstRemoveFromQueue() {
+        this.deque.addFirst(1);
+        int i = this.deque.removeFirst();
+        assertEquals(0, this.deque.size());
+        assertTrue(this.deque.isEmpty());
+        assertEquals(1, i);
     }
 }
