@@ -5,7 +5,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     public boolean isEmpty() {
         // is the queue empty?
-        return false;
+        return true;
     }
 
     public int size() {
@@ -13,17 +13,34 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return -1;
     }
 
+    /*
+     * add the item
+     */
     public void enqueue(Item item) {
-        // add the item
+        if (item == null) {
+            throw new NullPointerException();
+        }
     }
 
+    private void checkEmpty() {
+        if (isEmpty()) {
+            throw new java.util.NoSuchElementException();
+        }
+    }
+
+    /*
+     * delete and return a random item
+     */
     public Item dequeue() {
-        // delete and return a random item
+        checkEmpty();
         return null;
     }
 
+    /*
+     * return (but do not delete) a random item
+     */
     public Item sample() {
-        // return (but do not delete) a random item
+        checkEmpty();
         return null;
     }
 
