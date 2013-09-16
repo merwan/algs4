@@ -1,4 +1,7 @@
 import static org.junit.Assert.*;
+
+import java.util.Iterator;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,5 +26,17 @@ public class RandomizedQueueTest {
     @Test(expected = java.util.NoSuchElementException.class)
     public void throwsNoSuchElementExceptionWhenSamplingFromEptyQueue() {
         queue.sample();
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void throwsUnsupportedOperationExceptionWhenCallingRemoveFromIterator() {
+        Iterator<Integer> iterator = queue.iterator();
+        iterator.remove();
+    }
+    
+    @Test(expected = java.util.NoSuchElementException.class)
+    public void throwsNoSuchElementExceptionWhenCallingNextFromEmptyIterator() {
+        Iterator<Integer> iterator = queue.iterator();
+        iterator.next();
     }
 }
