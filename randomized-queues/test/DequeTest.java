@@ -24,9 +24,9 @@ public class DequeTest {
 
     @Test
     public void addFirstAddsToDeque() {
-        this.deque.addFirst(1);
-        this.deque.addFirst(2);
         this.deque.addFirst(3);
+        this.deque.addFirst(2);
+        this.deque.addFirst(1);
         assertEquals(3, this.deque.size());
         assertFalse(this.deque.isEmpty());
     }
@@ -79,5 +79,22 @@ public class DequeTest {
             expected++;
         }
         assertEquals(4, expected);
+    }
+
+    @Test
+    public void addFirstRemoveLastSingle() {
+        this.deque.addFirst(1);
+        int value = this.deque.removeLast();
+        assertEquals(1, value);
+    }
+
+    @Test
+    public void addFirstRemoveLastDouble() {
+        this.deque.addFirst(2);
+        this.deque.addFirst(1);
+        int value = this.deque.removeLast();
+        assertEquals(2, value);
+        value = this.deque.removeLast();
+        assertEquals(1, value);
     }
 }
