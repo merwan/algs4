@@ -68,13 +68,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         elements[N++] = item;
         if (N == elements.length) {
-            resize();
+            resize(2 * elements.length);
         }
     }
 
-    private void resize() {
-        Item[] copy = (Item[]) new Object[2 * elements.length];
-        for (int i = 0; i < elements.length; i++) {
+    private void resize(int capacity) {
+        Item[] copy = (Item[]) new Object[capacity];
+        for (int i = 0; i < N; i++) {
             copy[i] = elements[i];
         }
         elements = copy;
@@ -98,6 +98,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (index < N) {
             elements[index] = elements[N];
             elements[N] = null;
+        }
+
+        if (N > 0 && N == elements.length / 4) {
+            resize(elements.length / 2);
         }
 
         return value;
