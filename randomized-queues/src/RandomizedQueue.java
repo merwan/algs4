@@ -2,16 +2,28 @@ import java.util.Iterator;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private class RandomizedQueueIterator implements Iterator<Item> {
+        private Item[] output;
+        private int counter = 0;
+
+        private RandomizedQueueIterator() {
+            output = (Item[]) new Object[N];
+            for (int i = 0; i < N; i++) {
+                output[i] = elements[i];
+            }
+            StdRandom.shuffle(output);
+        }
 
         @Override
         public boolean hasNext() {
-            // TODO Auto-generated method stub
-            return false;
+            return counter < N;
         }
 
         @Override
         public Item next() {
-            throw new java.util.NoSuchElementException();
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException();
+            }
+            return output[counter++];
         }
 
         @Override
@@ -55,6 +67,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         elements[N++] = item;
+        if (N == elements.length) {
+            resize();
+        }
+    }
+
+    private void resize() {
+        Item[] copy = (Item[]) new Object[2 * elements.length];
+        for (int i = 0; i < elements.length; i++) {
+            copy[i] = elements[i];
+        }
+        elements = copy;
     }
 
     private void checkEmpty() {
@@ -68,7 +91,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      */
     public Item dequeue() {
         checkEmpty();
-        return elements[--N];
+        int index = StdRandom.uniform(N);
+        Item value = elements[index];
+
+        N--;
+        if (index < N) {
+            elements[index] = elements[N];
+            elements[N] = null;
+        }
+
+        return value;
     }
 
     /*
@@ -76,7 +108,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      */
     public Item sample() {
         checkEmpty();
-        return null;
+        int index = StdRandom.uniform(N);
+        Item value = elements[index];
+        return value;
     }
 
     /*

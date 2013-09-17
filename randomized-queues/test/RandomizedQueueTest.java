@@ -76,4 +76,24 @@ public class RandomizedQueueTest {
         int value = queue.dequeue();
         assertEquals(1, value);
     }
+
+    @Test
+    public void enqueueTwiceDequeue() {
+        queue.enqueue(1);
+        queue.enqueue(1);
+        int value = queue.dequeue();
+        assertEquals(1, value);
+    }
+
+    @Test
+    public void iterate() {
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        queue.enqueue(4);
+        for (int value : queue) {
+            StdOut.println(value);
+        }
+
+    }
 }
