@@ -21,18 +21,27 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     }
 
+    private int N;
+
+    /*
+     * construct an empty randomized queue
+     */
     public RandomizedQueue() {
-        // construct an empty randomized queue
+        N = 0;
     }
 
+    /*
+     * is the queue empty?
+     */
     public boolean isEmpty() {
-        // is the queue empty?
-        return true;
+        return N == 0;
     }
 
+    /*
+     * return the number of items on the queue
+     */
     public int size() {
-        // return the number of items on the queue
-        return -1;
+        return N;
     }
 
     /*
@@ -42,6 +51,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (item == null) {
             throw new NullPointerException();
         }
+
+        N++;
     }
 
     private void checkEmpty() {

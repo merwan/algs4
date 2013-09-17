@@ -27,16 +27,32 @@ public class RandomizedQueueTest {
     public void throwsNoSuchElementExceptionWhenSamplingFromEptyQueue() {
         queue.sample();
     }
-    
+
     @Test(expected = UnsupportedOperationException.class)
     public void throwsUnsupportedOperationExceptionWhenCallingRemoveFromIterator() {
         Iterator<Integer> iterator = queue.iterator();
         iterator.remove();
     }
-    
+
     @Test(expected = java.util.NoSuchElementException.class)
     public void throwsNoSuchElementExceptionWhenCallingNextFromEmptyIterator() {
         Iterator<Integer> iterator = queue.iterator();
         iterator.next();
+    }
+
+    @Test
+    public void newQueueIsEmpty() {
+        assertTrue(queue.isEmpty());
+    }
+
+    @Test
+    public void newQueueSizeIsZero() {
+        assertEquals(0, queue.size());
+    }
+
+    @Test
+    public void enqueueIncreaseSize() {
+        queue.enqueue(1);
+        assertEquals(1, queue.size());
     }
 }
