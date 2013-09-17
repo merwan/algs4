@@ -55,4 +55,25 @@ public class RandomizedQueueTest {
         queue.enqueue(1);
         assertEquals(1, queue.size());
     }
+
+    @Test
+    public void dequeueDecreaseSize() {
+        queue.enqueue(1);
+        queue.dequeue();
+        assertEquals(0, queue.size());
+    }
+
+    @Test
+    public void sampleKeepSize() {
+        queue.enqueue(1);
+        queue.sample();
+        assertEquals(1, queue.size());
+    }
+
+    @Test
+    public void enqueueDequeue() {
+        queue.enqueue(1);
+        int value = queue.dequeue();
+        assertEquals(1, value);
+    }
 }

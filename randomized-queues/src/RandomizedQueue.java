@@ -22,12 +22,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private int N;
+    private Item[] elements;
 
     /*
      * construct an empty randomized queue
      */
     public RandomizedQueue() {
         N = 0;
+        elements = (Item[]) new Object[1];
     }
 
     /*
@@ -52,7 +54,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new NullPointerException();
         }
 
-        N++;
+        elements[N++] = item;
     }
 
     private void checkEmpty() {
@@ -66,7 +68,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      */
     public Item dequeue() {
         checkEmpty();
-        return null;
+        return elements[--N];
     }
 
     /*
