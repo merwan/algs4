@@ -97,8 +97,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         N--;
         if (index < N) {
             elements[index] = elements[N];
-            elements[N] = null;
         }
+        elements[N] = null;
 
         if (N > 0 && N == elements.length / 4) {
             resize(elements.length / 2);
