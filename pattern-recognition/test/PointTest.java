@@ -27,4 +27,10 @@ public class PointTest {
         assertTrue(point.compareTo(point2) == 0);
         assertTrue(point2.compareTo(point) == 0);
     }
+
+    @Test(expected = NullPointerException.class)
+    public void compareWithNullThrowsNullPointerException() {
+        Point point = new Point(5, 10);
+        point.compareTo(null);
+    }
 }
