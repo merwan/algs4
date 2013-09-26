@@ -15,7 +15,19 @@ import java.util.Comparator;
 public class Point implements Comparable<Point> {
 
     // compare points by slope
-    public final Comparator<Point> SLOPE_ORDER = null; // YOUR DEFINITION HERE
+    public final Comparator<Point> SLOPE_ORDER = new SlopeOrder();
+
+    private class SlopeOrder implements Comparator<Point> {
+        public int compare(Point p1, Point p2) {
+            double slope1 = Point.this.slopeTo(p1);
+            double slope2 = Point.this.slopeTo(p2);
+            if (slope1 == slope2) {
+                return 0;
+            }
+            return slope1 < slope2 ? -1 : 1;
+        }
+
+    }
 
     private final int x; // x coordinate
     private final int y; // y coordinate
