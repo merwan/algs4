@@ -24,7 +24,10 @@ public class Point implements Comparable<Point> {
             if (slope1 == slope2) {
                 return 0;
             }
-            return slope1 < slope2 ? -1 : 1;
+            if (slope1 < slope2) {
+                return -1;
+            }
+            return 1;
         }
 
     }
