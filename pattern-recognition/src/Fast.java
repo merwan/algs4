@@ -28,7 +28,7 @@ public class Fast {
                 if (slope == previousSlope) {
                     alignedPoints++;
                 } else {
-                    if (alignedPoints >= 4) {
+                    if (alignedPoints >= 3) {
                         Point[] sortedPoints = new Point[alignedPoints + 1];
                         sortedPoints[0] = p;
                         for (int k = 1; k <= alignedPoints; k++) {
@@ -42,6 +42,7 @@ public class Fast {
                             StdOut.printf(" -> %s", point);
                         }
                         StdOut.println();
+                        sortedPoints[0].drawTo(sortedPoints[alignedPoints]);
                     }
                     alignedPoints = 1;
                 }
