@@ -27,16 +27,16 @@ public class Fast {
                 if (slope == previousSlope) {
                     counter++;
                 } else {
+                    if (counter >= 3) {
+                        Point q = points[j - 4];
+                        Point r = points[j - 3];
+                        Point s = points[j - 2];
+                        Point t = points[j - 1];
+                        StdOut.printf("%s -> %s -> %s -> %s -> %s\n", p, q, r, s, t);
+                    }
                     counter = 0;
                 }
 
-                if (counter == 3) {
-                    Point q = points[j - 2];
-                    Point r = points[j - 1];
-                    Point s = points[j];
-                    StdOut.printf("%s -> %s -> %s -> %s\n", p, q, r, s);
-                    counter = 0;
-                }
                 previousSlope = slope;
             }
         }
