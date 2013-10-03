@@ -29,9 +29,16 @@ public class Fast {
                     alignedPoints++;
                 } else {
                     if (alignedPoints >= 4) {
-                        StdOut.printf("%s", p);
+                        Point[] sortedPoints = new Point[alignedPoints + 1];
+                        sortedPoints[0] = p;
                         for (int k = 1; k <= alignedPoints; k++) {
                             Point point = points[j - k];
+                            sortedPoints[k] = point;
+                        }
+                        Arrays.sort(sortedPoints);
+                        StdOut.printf("%s", sortedPoints[0]);
+                        for (int k = 1; k <= alignedPoints; k++) {
+                            Point point = sortedPoints[k];
                             StdOut.printf(" -> %s", point);
                         }
                         StdOut.println();
