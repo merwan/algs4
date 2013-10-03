@@ -18,23 +18,25 @@ public class Fast {
         for (int i = 0; i < points.length; i++) {
             Point p = points[i];
             Arrays.sort(points, p.SLOPE_ORDER);
-            int counter = 0;
+            int alignedPoints = 1;
             double previousSlope = Double.NaN;
+            p = points[0];
             for (int j = 1; j < points.length; j++) {
                 Point other = points[j];
                 double slope = p.slopeTo(other);
 
                 if (slope == previousSlope) {
-                    counter++;
+                    alignedPoints++;
                 } else {
-                    if (counter >= 3) {
-                        Point q = points[j - 4];
-                        Point r = points[j - 3];
-                        Point s = points[j - 2];
-                        Point t = points[j - 1];
-                        StdOut.printf("%s -> %s -> %s -> %s -> %s\n", p, q, r, s, t);
+                    if (alignedPoints >= 4) {
+                        StdOut.printf("%s", p);
+                        for (int k = 1; k <= alignedPoints; k++) {
+                            Point point = points[j - k];
+                            StdOut.printf(" -> %s", point);
+                        }
+                        StdOut.println();
                     }
-                    counter = 0;
+                    alignedPoints = 1;
                 }
 
                 previousSlope = slope;
