@@ -5,6 +5,9 @@ public class Fast {
         String filename = args[0];
         In in = new In(filename);
         int N = in.readInt();
+        if (N < 4) {
+            return;
+        }
         Point[] pointsKey = new Point[N];
         Point[] pointsSlopes = new Point[N];
         StdDraw.setXscale(0, 32768);
@@ -34,14 +37,18 @@ public class Fast {
             double slope = p.slopeTo(point);
             if (slope == previousSlope) {
                 lines[++alignedPoints] = point;
+            } else {
                 if (alignedPoints >= 3) {
                     showLine(lines, alignedPoints + 1);
                 }
-            } else {
                 alignedPoints = 1;
                 lines[1] = point;
             }
             previousSlope = slope;
+        }
+
+        if (alignedPoints >= 3) {
+            showLine(lines, alignedPoints + 1);
         }
     }
 
