@@ -27,28 +27,26 @@ public class Fast {
         Point p = points[0];
         Point[] lines = new Point[4];
         lines[0] = p;
-        int index = 1;
         double previousSlope = p.slopeTo(points[1]);
-        int alignedPoints = 1;
+        int alignedPoints = 0;
         for (int i = 1; i < points.length; i++) {
             Point point = points[i];
             double slope = p.slopeTo(point);
             if (slope == previousSlope) {
-                lines[index++] = point;
-                alignedPoints++;
+                lines[++alignedPoints] = point;
                 if (alignedPoints == 3) {
                     showLine(lines);
                 }
             } else {
                 alignedPoints = 1;
-                index = 1;
+                lines[1] = point;
             }
             previousSlope = slope;
         }
     }
 
     private static void showLine(Point[] lines) {
-        Arrays.sort(lines);
+        Arrays.sort(lines, 1, lines.length);
         if (lines[0].compareTo(lines[1]) < 0) {
             StdOut.printf("%s", lines[0]);
             for (int k = 1; k < lines.length; k++) {
