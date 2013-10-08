@@ -25,7 +25,7 @@ public class Fast {
 
     private static void findLines(Point[] points) {
         Point p = points[0];
-        Point[] lines = new Point[4];
+        Point[] lines = new Point[points.length];
         lines[0] = p;
         double previousSlope = p.slopeTo(points[1]);
         int alignedPoints = 0;
@@ -34,8 +34,8 @@ public class Fast {
             double slope = p.slopeTo(point);
             if (slope == previousSlope) {
                 lines[++alignedPoints] = point;
-                if (alignedPoints == 3) {
-                    showLine(lines);
+                if (alignedPoints >= 3) {
+                    showLine(lines, alignedPoints + 1);
                 }
             } else {
                 alignedPoints = 1;
@@ -45,16 +45,16 @@ public class Fast {
         }
     }
 
-    private static void showLine(Point[] lines) {
-        Arrays.sort(lines, 1, lines.length);
+    private static void showLine(Point[] lines, int size) {
+        Arrays.sort(lines, 1, size);
         if (lines[0].compareTo(lines[1]) < 0) {
             StdOut.printf("%s", lines[0]);
-            for (int k = 1; k < lines.length; k++) {
+            for (int k = 1; k < size; k++) {
                 Point point = lines[k];
                 StdOut.printf(" -> %s", point);
             }
             StdOut.println();
-            lines[0].drawTo(lines[lines.length - 1]);
+            lines[0].drawTo(lines[size - 1]);
         }
     }
 }
