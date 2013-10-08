@@ -16,61 +16,47 @@ public class Fast {
             pointsKey[i].draw();
         }
 
-        for (int i = 0; i < pointsKey.length; i++) {
-            Point originPoint = pointsKey[i];
-            pointsSlopes = Arrays.copyOf(pointsKey, pointsKey.length);
-            Arrays.sort(pointsKey, originPoint.SLOPE_ORDER);
-            int alignedPoints = 1;
-            double previousSlope = Double.NaN;
-            for (int j = 1; j < pointsKey.length; j++) {
-                Point other = pointsSlopes[j];
-                double slope = originPoint.slopeTo(other);
-
-                if (slope == previousSlope) {
-                    alignedPoints++;
-
-                    if (j == pointsKey.length - 1 && alignedPoints >= 3) {
-                        Point[] sortedPoints = new Point[alignedPoints + 1];
-                        sortedPoints[0] = originPoint;
-                        for (int k = 1; k <= alignedPoints; k++) {
-                            Point point = pointsSlopes[j + 1 - k];
-                            sortedPoints[k] = point;
-                        }
-                        Arrays.sort(sortedPoints);
-                        StdOut.printf("%s", sortedPoints[0]);
-                        for (int k = 1; k <= alignedPoints; k++) {
-                            Point point = sortedPoints[k];
-                            StdOut.printf(" -> %s", point);
-                        }
-                        StdOut.println();
-                        sortedPoints[0].drawTo(sortedPoints[alignedPoints]);
-                    }
-                } else {
-                    if (alignedPoints >= 3) {
-                        Point[] sortedPoints = new Point[alignedPoints + 1];
-                        sortedPoints[0] = originPoint;
-                        for (int k = 1; k <= alignedPoints; k++) {
-                            Point point = pointsSlopes[j - k];
-                            sortedPoints[k] = point;
-                        }
-                        Arrays.sort(sortedPoints);
-                        StdOut.printf("%s", sortedPoints[0]);
-                        for (int k = 1; k <= alignedPoints; k++) {
-                            Point point = sortedPoints[k];
-                            StdOut.printf(" -> %s", point);
-                        }
-                        StdOut.println();
-                        sortedPoints[0].drawTo(sortedPoints[alignedPoints]);
-                    }
-                    alignedPoints = 1;
-                }
-
-                previousSlope = slope;
-            }
+        pointsSlopes = Arrays.copyOf(pointsKey, pointsKey.length);
+        for (Point originPoint : pointsKey) {
+            Arrays.sort(pointsSlopes, originPoint.SLOPE_ORDER);
+            findLines(pointsSlopes);
         }
     }
 
-    private void output() {
+    private static void findLines(Point[] points) {
+        Point p = points[0];
+        Point[] lines = new Point[4];
+        lines[0] = p;
+        int index = 1;
+        double previousSlope = p.slopeTo(points[1]);
+        int alignedPoints = 1;
+        for (int i = 1; i < points.length; i++) {
+            Point point = points[i];
+            double slope = p.slopeTo(point);
+            if (slope == previousSlope) {
+                lines[index++] = point;
+                alignedPoints++;
+                if (alignedPoints == 3) {
+                    showLine(lines);
+                }
+            } else {
+                alignedPoints = 1;
+                index = 1;
+            }
+            previousSlope = slope;
+        }
+    }
 
+    private static void showLine(Point[] lines) {
+        Arrays.sort(lines);
+        if (lines[0].compareTo(lines[1]) < 0) {
+            StdOut.printf("%s", lines[0]);
+            for (int k = 1; k < lines.length; k++) {
+                Point point = lines[k];
+                StdOut.printf(" -> %s", point);
+            }
+            StdOut.println();
+            lines[0].drawTo(lines[lines.length - 1]);
+        }
     }
 }
