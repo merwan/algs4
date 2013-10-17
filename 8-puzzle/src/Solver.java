@@ -5,14 +5,17 @@ public class Solver {
 
     public boolean isSolvable() {
         // is the initial board solvable?
+        return false;
     }
 
     public int moves() {
         // min number of moves to solve initial board; -1 if no solution
+        return 0;
     }
 
     public Iterable<Board> solution() {
         // sequence of boards in a shortest solution; null if no solution
+        return null;
     }
 
     /*

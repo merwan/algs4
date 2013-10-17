@@ -2,45 +2,69 @@ public class Board {
     private int N;
     private int[][] tiles;
 
+    /*
+     * construct a board from an N-by-N array of blocks (where blocks[i][j] =
+     * block in row i, column j)
+     */
     public Board(int[][] blocks) {
-        // construct a board from an N-by-N array of blocks
-        // (where blocks[i][j] = block in row i, column j)
         N = blocks.length;
         tiles = blocks;
     }
 
+    /*
+     * is this board the goal board?
+     */
     public int dimension() {
-        // board dimension N
         return N;
     }
 
+    /*
+     * number of blocks out of place
+     */
     public int hamming() {
-        // number of blocks out of place
+        return 0;
     }
 
+    /*
+     * sum of Manhattan distances between blocks and goal
+     */
     public int manhattan() {
-        // sum of Manhattan distances between blocks and goal
+        return 0;
     }
 
+    /*
+     * is this board the goal board?
+     */
     public boolean isGoal() {
-        // is this board the goal board?
+        return true;
     }
 
+    /*
+     * a board obtained by exchanging two adjacent blocks in the same row
+     */
     public Board twin() {
-        // a board obtained by exchanging two adjacent blocks in the same row
+        return null;
     }
 
+    /*
+     * does this board equal y? (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     public boolean equals(Object y) {
-        // does this board equal y?
+        return false;
     }
 
+    /*
+     * all neighboring boards
+     */
     public Iterable<Board> neighbors() {
-        // all neighboring boards
+        return null;
     }
 
     /*
      * string representation of the board (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     public String toString() {
