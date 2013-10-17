@@ -36,7 +36,21 @@ public class Board {
      * is this board the goal board?
      */
     public boolean isGoal() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (isEnd(i, j)) {
+                    return tiles[i][j] == 0;
+                }
+                if (tiles[i][j] != 1 + N * i + j) {
+                    return false;
+                }
+            }
+        }
         return true;
+    }
+
+    private boolean isEnd(int i, int j) {
+        return i == N - 1 && j == N - 1;
     }
 
     /*
