@@ -12,7 +12,7 @@ public class Board {
     }
 
     /*
-     * is this board the goal board?
+     * board dimension N
      */
     public int dimension() {
         return N;
