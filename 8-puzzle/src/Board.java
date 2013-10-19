@@ -1,6 +1,7 @@
 public class Board {
-    private int N;
-    private int[][] tiles;
+    private final int N;
+    private final int[][] tiles;
+    private final int[][] goalTiles;
 
     /*
      * construct a board from an N-by-N array of blocks (where blocks[i][j] =
@@ -9,6 +10,19 @@ public class Board {
     public Board(int[][] blocks) {
         N = blocks.length;
         tiles = blocks;
+        goalTiles = createGoalBoard();
+    }
+
+    private int[][] createGoalBoard() {
+        int[][] array = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                array[i][j] = 1 + i * N + j;
+            }
+        }
+        array[N - 1][N - 1] = 0;
+
+        return array;
     }
 
     /*
@@ -36,21 +50,18 @@ public class Board {
      * is this board the goal board?
      */
     public boolean isGoal() {
+        return tilesEquals(this.tiles, goalTiles);
+    }
+
+    private boolean tilesEquals(int[][] first, int[][] second) {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (isEnd(i, j)) {
-                    return tiles[i][j] == 0;
-                }
-                if (tiles[i][j] != 1 + N * i + j) {
+                if (first[i][j] != second[i][j]) {
                     return false;
                 }
             }
         }
         return true;
-    }
-
-    private boolean isEnd(int i, int j) {
-        return i == N - 1 && j == N - 1;
     }
 
     /*
@@ -74,15 +85,7 @@ public class Board {
             return false;
 
         Board that = (Board) x;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (this.tiles[i][j] != that.tiles[i][j]) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return tilesEquals(this.tiles, that.tiles);
     }
 
     /*
