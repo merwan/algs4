@@ -9,7 +9,12 @@ public class Board {
      */
     public Board(int[][] blocks) {
         N = blocks.length;
-        tiles = blocks;
+        tiles = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                tiles[i][j] = blocks[i][j];
+            }
+        }
         goalTiles = createGoalBoard();
     }
 
