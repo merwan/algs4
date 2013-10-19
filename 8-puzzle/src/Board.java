@@ -1,7 +1,6 @@
 public class Board {
     private final int N;
     private final int[][] tiles;
-    private final int[][] goalTiles;
 
     /*
      * construct a board from an N-by-N array of blocks (where blocks[i][j] =
@@ -15,17 +14,15 @@ public class Board {
                 tiles[i][j] = blocks[i][j];
             }
         }
-        goalTiles = createGoalBoard();
     }
 
     private int[][] createGoalBoard() {
         int[][] array = new int[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                array[i][j] = 1 + i * N + j;
+                array[i][j] = goalValueAt(i, j);
             }
         }
-        array[N - 1][N - 1] = 0;
 
         return array;
     }
@@ -44,12 +41,19 @@ public class Board {
         int sum = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (tiles[i][j] != goalTiles[i][j] && !isEnd(i, j)) {
+                if (tiles[i][j] != goalValueAt(i, j) && !isEnd(i, j)) {
                     sum++;
                 }
             }
         }
         return sum;
+    }
+
+    private int goalValueAt(int i, int j) {
+        if (isEnd(i, j)) {
+            return 0;
+        }
+        return 1 + i * N + j;
     }
 
     private boolean isEnd(int i, int j) {
@@ -67,7 +71,7 @@ public class Board {
      * is this board the goal board?
      */
     public boolean isGoal() {
-        return tilesEquals(this.tiles, goalTiles);
+        return tilesEquals(this.tiles, createGoalBoard());
     }
 
     private boolean tilesEquals(int[][] first, int[][] second) {
