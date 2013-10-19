@@ -15,6 +15,20 @@ public class BoardTests {
         return new Board(array);
     }
 
+    private Board createAnyBoard(int size, int[] args) {
+        int counter = 0;
+        int[][] array = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (counter < args.length) {
+                    array[i][j] = args[counter++];
+                }
+            }
+        }
+
+        return new Board(array);
+    }
+
     private Board createRandomBoard(int size) {
         int[][] array = new int[size][size];
         for (int i = 0; i < size; i++) {
@@ -65,5 +79,15 @@ public class BoardTests {
         assertFalse(board.equals(new String()));
         assertFalse(board.equals(createRandomBoard(3)));
         assertTrue(board.equals(createGoalBoard(3)));
+    }
+
+    @Test
+    public void testHamming() {
+        Board board = createGoalBoard(3);
+
+        assertEquals(0, board.hamming());
+        assertEquals(5,
+                createAnyBoard(3, new int[] { 8, 1, 3, 4, 0, 2, 7, 6, 5 })
+                        .hamming());
     }
 }

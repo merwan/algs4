@@ -36,14 +36,26 @@ public class Board {
      * number of blocks out of place
      */
     public int hamming() {
-        return 0;
+        int sum = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (tiles[i][j] != goalTiles[i][j] && !isEnd(i, j)) {
+                    sum++;
+                }
+            }
+        }
+        return sum;
+    }
+
+    private boolean isEnd(int i, int j) {
+        return i == N - 1 && j == N - 1;
     }
 
     /*
      * sum of Manhattan distances between blocks and goal
      */
     public int manhattan() {
-        return 0;
+        return -1;
     }
 
     /*
