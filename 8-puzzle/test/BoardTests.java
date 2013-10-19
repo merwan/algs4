@@ -91,4 +91,20 @@ public class BoardTests {
                 createAnyBoard(3, new int[] { 8, 1, 3, 4, 0, 2, 7, 6, 5 })
                         .hamming());
     }
+
+    @Test
+    public void testManhattan() {
+        Board board = createGoalBoard(3);
+
+        assertEquals(0, board.manhattan());
+        assertEquals(2,
+                createAnyBoard(3, new int[] { 2, 1, 3, 4, 5, 6, 7, 8, 0 })
+                        .manhattan());
+        assertEquals(6,
+                createAnyBoard(3, new int[] { 8, 2, 3, 4, 5, 6, 7, 1, 0 })
+                        .manhattan());
+        assertEquals(10,
+                createAnyBoard(3, new int[] { 8, 1, 3, 4, 0, 2, 7, 6, 5 })
+                        .manhattan());
+    }
 }

@@ -64,7 +64,19 @@ public class Board {
      * sum of Manhattan distances between blocks and goal
      */
     public int manhattan() {
-        return -1;
+        int sum = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                int value = tiles[i][j];
+                if (value != 0 && value != goalValueAt(i, j)) {
+                    int initialX = (value - 1) / N;
+                    int initialY = value - 1 - initialX * N;
+                    int distance = Math.abs(i - initialX) + Math.abs(j - initialY);
+                    sum += distance;
+                }
+            }
+        }
+        return sum;
     }
 
     /*
