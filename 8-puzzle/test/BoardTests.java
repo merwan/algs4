@@ -55,4 +55,15 @@ public class BoardTests {
 
         assertFalse(board.isGoal());
     }
+
+    @Test
+    public void testEquals() {
+        Board board = createGoalBoard(3);
+
+        assertTrue(board.equals(board));
+        assertFalse(board.equals(null));
+        assertFalse(board.equals(new String()));
+        assertFalse(board.equals(createRandomBoard(3)));
+        assertTrue(board.equals(createGoalBoard(3)));
+    }
 }

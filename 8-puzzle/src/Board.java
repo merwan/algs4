@@ -61,12 +61,28 @@ public class Board {
     }
 
     /*
-     * does this board equal y? (non-Javadoc)
+     * does this board equal x? (non-Javadoc)
      * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
-    public boolean equals(Object y) {
-        return false;
+    public boolean equals(Object x) {
+        if (x == this)
+            return true;
+        if (x == null)
+            return false;
+        if (x.getClass() != this.getClass())
+            return false;
+
+        Board that = (Board) x;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (this.tiles[i][j] != that.tiles[i][j]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /*
