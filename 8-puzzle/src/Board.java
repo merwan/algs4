@@ -102,7 +102,7 @@ public class Board {
             return false;
 
         Board that = (Board) x;
-        return tilesEquals(this.tiles, that.tiles);
+        return this.N == that.N && tilesEquals(this.tiles, that.tiles);
     }
 
     /*

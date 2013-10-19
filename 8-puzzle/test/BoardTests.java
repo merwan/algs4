@@ -78,6 +78,7 @@ public class BoardTests {
         assertFalse(board.equals(null));
         assertFalse(board.equals(new String()));
         assertFalse(board.equals(createRandomBoard(3)));
+        assertFalse(board.equals(createGoalBoard(2)));
         assertTrue(board.equals(createGoalBoard(3)));
     }
 
