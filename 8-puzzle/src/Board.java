@@ -107,15 +107,23 @@ public class Board {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N - 1; j++) {
                 if (tiles[i][j] != 0 && tiles[i][j + 1] != 0) {
-                    int temp = board.tiles[i][j];
-                    board.tiles[i][j] = board.tiles[i][j + 1];
-                    board.tiles[i][j + 1] = temp;
+                    board.swap(i, j, i, j + 1);
                     return board;
                 }
             }
         }
 
         return board;
+    }
+
+    private boolean swap(int i, int j, int it, int jt) {
+        if (it < 0 || it >= N || jt < 0 || jt >= N) {
+            return false;
+        }
+        int temp = tiles[i][j];
+        tiles[i][j] = tiles[it][jt];
+        tiles[it][jt] = temp;
+        return true;
     }
 
     /*
@@ -139,7 +147,45 @@ public class Board {
      * all neighboring boards
      */
     public Iterable<Board> neighbors() {
-        return null;
+        int i0 = 0, j0 = 0;
+        boolean found = false;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (tiles[i][j] == 0) {
+                    i0 = i;
+                    j0 = j;
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                break;
+            }
+        }
+
+        Stack<Board> boards = new Stack<Board>();
+        Board board = new Board(tiles);
+        boolean isNeighbor = board.swap(i0, j0, i0 - 1, j0);
+        if (isNeighbor) {
+            boards.push(board);
+        }
+        board = new Board(tiles);
+        isNeighbor = board.swap(i0, j0, i0, j0 - 1);
+        if (isNeighbor) {
+            boards.push(board);
+        }
+        board = new Board(tiles);
+        isNeighbor = board.swap(i0, j0, i0 + 1, j0);
+        if (isNeighbor) {
+            boards.push(board);
+        }
+        board = new Board(tiles);
+        isNeighbor = board.swap(i0, j0, i0, j0 + 1);
+        if (isNeighbor) {
+            boards.push(board);
+        }
+
+        return boards;
     }
 
     /*
