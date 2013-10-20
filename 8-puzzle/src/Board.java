@@ -71,7 +71,8 @@ public class Board {
                 if (value != 0 && value != goalValueAt(i, j)) {
                     int initialX = (value - 1) / N;
                     int initialY = value - 1 - initialX * N;
-                    int distance = Math.abs(i - initialX) + Math.abs(j - initialY);
+                    int distance = Math.abs(i - initialX)
+                            + Math.abs(j - initialY);
                     sum += distance;
                 }
             }
@@ -101,7 +102,18 @@ public class Board {
      * a board obtained by exchanging two adjacent blocks in the same row
      */
     public Board twin() {
-        return null;
+        Board board = new Board(tiles);
+
+        for (int j = 0; j < N - 1; j++) {
+            if (tiles[0][j] != 0 && tiles[0][j + 1] != 0) {
+                int temp = board.tiles[0][j];
+                board.tiles[0][j] = board.tiles[0][j + 1];
+                board.tiles[0][j + 1] = temp;
+                break;
+            }
+        }
+
+        return board;
     }
 
     /*
