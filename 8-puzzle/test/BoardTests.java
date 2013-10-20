@@ -120,5 +120,11 @@ public class BoardTests {
                 createAnyBoard(3, new int[] { 0, 2, 3, 4, 5, 6, 7, 8, 1 }),
                 createAnyBoard(3, new int[] { 0, 3, 2, 4, 5, 6, 7, 8, 1 })
                         .twin());
+        assertEquals(
+                createAnyBoard(3, new int[] { 5, 0, 4, 2, 3, 8, 7, 1, 6 }),
+                createAnyBoard(3, new int[] { 5, 0, 4, 3, 2, 8, 7, 1, 6 })
+                        .twin());
+        assertEquals(createAnyBoard(2, new int[] { 1, 0, 2, 3 }),
+                createAnyBoard(2, new int[] { 1, 0, 3, 2 }).twin());
     }
 }

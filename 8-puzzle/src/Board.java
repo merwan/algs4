@@ -104,12 +104,14 @@ public class Board {
     public Board twin() {
         Board board = new Board(tiles);
 
-        for (int j = 0; j < N - 1; j++) {
-            if (tiles[0][j] != 0 && tiles[0][j + 1] != 0) {
-                int temp = board.tiles[0][j];
-                board.tiles[0][j] = board.tiles[0][j + 1];
-                board.tiles[0][j + 1] = temp;
-                break;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N - 1; j++) {
+                if (tiles[i][j] != 0 && tiles[i][j + 1] != 0) {
+                    int temp = board.tiles[i][j];
+                    board.tiles[i][j] = board.tiles[i][j + 1];
+                    board.tiles[i][j + 1] = temp;
+                    return board;
+                }
             }
         }
 
