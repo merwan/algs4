@@ -77,14 +77,22 @@ public class Solver {
      * min number of moves to solve initial board; -1 if no solution
      */
     public int moves() {
-        return moves;
+        if (isSolvable) {
+            return moves;
+        } else {
+            return -1;
+        }
     }
 
     /*
      * sequence of boards in a shortest solution; null if no solution
      */
     public Iterable<Board> solution() {
-        return boards;
+        if (isSolvable) {
+            return boards;
+        } else {
+            return null;
+        }
     }
 
     /*
