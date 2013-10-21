@@ -42,7 +42,7 @@ public class Solver {
         Board board = initial;
         SearchNode node = new SearchNode(initial, moves, previous);
         minPQ.insert(node);
-        while (moves < 35) {
+        while (moves < 1000000) {
             previous = minPQ.delMin();
             board = previous.board;
             if (board.isGoal()) {
@@ -78,7 +78,7 @@ public class Solver {
      */
     public int moves() {
         if (isSolvable) {
-            return moves;
+            return boards.size() - 1;
         } else {
             return -1;
         }
