@@ -1,5 +1,4 @@
 public class Solver {
-    private final MinPQ<SearchNode> minPQ;
     private final Stack<Board> boards;
     private int moves;
     private boolean isSolvable;
@@ -8,6 +7,7 @@ public class Solver {
         private Board board;
         private int moves;
         private SearchNode previous;
+        private int cachedPriority = -1;
 
         SearchNode(Board board, int moves, SearchNode previous) {
             this.board = board;
@@ -16,7 +16,10 @@ public class Solver {
         }
 
         private int priority() {
-            return moves + board.manhattan();
+            if (cachedPriority == -1) {
+                cachedPriority = moves + board.manhattan();
+            }
+            return cachedPriority;
         }
 
         @Override
@@ -36,31 +39,37 @@ public class Solver {
      */
     public Solver(Board initial) {
         boards = new Stack<Board>();
-        minPQ = new MinPQ<SearchNode>();
+        if (initial.isGoal()) {
+            isSolvable = true;
+            this.boards.push(initial);
+            return;
+        }
+
+        MinPQ<SearchNode> minPQ = new MinPQ<SearchNode>();
         moves = 0;
-        SearchNode previous = null;
         Board board = initial;
-        SearchNode node = new SearchNode(initial, moves, previous);
+        SearchNode node = new SearchNode(initial, moves, null);
         minPQ.insert(node);
-        while (moves < 1000000) {
-            previous = minPQ.delMin();
-            board = previous.board;
+        while (moves < 100) {
+            node = minPQ.delMin();
+            board = node.board;
             if (board.isGoal()) {
                 isSolvable = true;
                 this.boards.push(board);
-                while (previous.previous != null) {
-                    previous = previous.previous;
-                    this.boards.push(previous.board);
+                while (node.previous != null) {
+                    node = node.previous;
+                    this.boards.push(node.board);
                 }
                 return;
             }
+            node.moves++;
             Iterable<Board> neighbors = board.neighbors();
-            moves++;
             for (Board neighbor : neighbors) {
-                if (neighbor.equals(previous.board)) {
+                if (node.previous != null
+                        && neighbor.equals(node.previous.board)) {
                     continue;
                 }
-                SearchNode newNode = new SearchNode(neighbor, moves, previous);
+                SearchNode newNode = new SearchNode(neighbor, node.moves, node);
                 minPQ.insert(newNode);
             }
         }
