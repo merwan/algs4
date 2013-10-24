@@ -44,15 +44,29 @@ public class Solver {
             this.boards.push(initial);
             return;
         }
+        if (initial.twin().isGoal()) {
+            isSolvable = false;
+            return;
+        }
 
         MinPQ<SearchNode> minPQ = new MinPQ<SearchNode>();
+        MinPQ<SearchNode> minPQTwin = new MinPQ<SearchNode>();
         moves = 0;
         Board board = initial;
-        SearchNode node = new SearchNode(initial, moves, null);
+        Board boardTwin = initial.twin();
+        SearchNode node = new SearchNode(board, 0, null);
+        SearchNode nodeTwin = new SearchNode(boardTwin, 0, null);
         minPQ.insert(node);
+        minPQTwin.insert(nodeTwin);
         while (moves < 100) {
             node = minPQ.delMin();
+            nodeTwin = minPQTwin.delMin();
             board = node.board;
+            boardTwin = nodeTwin.board;
+            if (boardTwin.isGoal()) {
+                isSolvable = false;
+                return;
+            }
             if (board.isGoal()) {
                 isSolvable = true;
                 this.boards.push(board);
@@ -63,6 +77,7 @@ public class Solver {
                 return;
             }
             node.moves++;
+            nodeTwin.moves++;
             Iterable<Board> neighbors = board.neighbors();
             for (Board neighbor : neighbors) {
                 if (node.previous != null
@@ -71,6 +86,16 @@ public class Solver {
                 }
                 SearchNode newNode = new SearchNode(neighbor, node.moves, node);
                 minPQ.insert(newNode);
+            }
+            Iterable<Board> neighborsTwin = boardTwin.neighbors();
+            for (Board neighbor : neighborsTwin) {
+                if (nodeTwin.previous != null
+                        && neighbor.equals(nodeTwin.previous.board)) {
+                    continue;
+                }
+                SearchNode newNode = new SearchNode(neighbor, nodeTwin.moves,
+                        nodeTwin);
+                minPQTwin.insert(newNode);
             }
         }
     }
