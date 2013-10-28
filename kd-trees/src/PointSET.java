@@ -50,7 +50,13 @@ public class PointSET {
      * all points in the set that are inside the rectangle
      */
     public Iterable<Point2D> range(RectHV rect) {
-        return null;
+        Queue<Point2D> queue = new Queue<Point2D>();
+        for (Point2D p : set) {
+            if (rect.contains(p)) {
+                queue.enqueue(p);
+            }
+        }
+        return queue;
     }
 
     /*
