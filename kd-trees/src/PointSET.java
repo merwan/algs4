@@ -1,4 +1,6 @@
 public class PointSET {
+    private int size = 0;
+
     /*
      * construct an empty set of points
      */
@@ -9,20 +11,21 @@ public class PointSET {
      * is the set empty?
      */
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     /*
      * number of points in the set
      */
     public int size() {
-        return -1;
+        return size;
     }
 
     /*
      * add the point p to the set (if it is not already in the set)
      */
     public void insert(Point2D p) {
+        size++;
     }
 
     /*
