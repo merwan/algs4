@@ -25,6 +25,9 @@ public class PointSET {
      * add the point p to the set (if it is not already in the set)
      */
     public void insert(Point2D p) {
+        if (set.contains(p)) {
+            return;
+        }
         set.add(p);
     }
 
@@ -66,12 +69,8 @@ public class PointSET {
         double distance = Double.MAX_VALUE;
         Point2D nearest = null;
         for (Point2D other : set) {
-            if (other.equals(p)) {
-                continue;
-            }
-
-            if (p.distanceSquaredTo(other) < distance) {
-                distance = p.distanceSquaredTo(other);
+            if (p.distanceTo(other) < distance) {
+                distance = p.distanceTo(other);
                 nearest = other;
             }
 
