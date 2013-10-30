@@ -1,4 +1,29 @@
 public class KdTree {
+    private static class Node {
+        /*
+         * the point
+         */
+        private Point2D p;
+        /*
+         * the axis-aligned rectangle corresponding to this/ node
+         */
+        private RectHV rect;
+        /*
+         * the left/bottom subtree
+         */
+        private Node lb;
+        /*
+         * the right/top subtree
+         */
+        private Node rt;
+
+        public Node(Point2D p) {
+            this.p = p;
+        }
+    }
+
+    private Node root;
+
     /*
      * construct an empty set of points
      */
@@ -9,7 +34,7 @@ public class KdTree {
      * is the set empty?
      */
     public boolean isEmpty() {
-        return true;
+        return root == null;
     }
 
     /*
@@ -23,6 +48,25 @@ public class KdTree {
      * add the point p to the set (if it is not already in the set)
      */
     public void insert(Point2D p) {
+        root = put(root, p, true);
+    }
+
+    private Node put(Node x, Point2D p, boolean compareX) {
+        if (x == null)
+            return new Node(p);
+        double cmp;
+        if (compareX) {
+            cmp = p.x() - x.p.x();
+        } else {
+            cmp = p.y() - x.p.y();
+        }
+        if (cmp < 0)
+            x.lb = put(x.lb, x.p, !compareX);
+        else if (cmp > 0)
+            x.rt = put(x.rt, x.p, !compareX);
+        else
+            x.p = p;
+        return x;
     }
 
     /*
