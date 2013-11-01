@@ -1,5 +1,4 @@
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 public class KdTreeTests {
@@ -99,5 +98,17 @@ public class KdTreeTests {
         tree.insert(s);
 
         assertEquals(4, tree.size());
+    }
+
+    @Test
+    public void testRange() {
+        KdTree tree = new KdTree();
+        Point2D p = new Point2D(0.1, 0.5);
+        tree.insert(p);
+
+        Iterable<Point2D> points = tree.range(new RectHV(0, 0, 1, 1));
+        for (Point2D point2d : points) {
+            assertEquals(p, point2d);
+        }
     }
 }

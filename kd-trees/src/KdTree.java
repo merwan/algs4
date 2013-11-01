@@ -139,7 +139,25 @@ public class KdTree {
      */
     public Iterable<Point2D> range(RectHV rect) {
         Queue<Point2D> queue = new Queue<Point2D>();
+
+        findPoints(queue, rect, root);
+
         return queue;
+    }
+
+    private void findPoints(Queue<Point2D> queue, RectHV rect, Node x) {
+        if (!rect.intersects(x.rect)) {
+            return;
+        }
+        if (rect.contains(x.p)) {
+            queue.enqueue(x.p);
+        }
+        if (x.lb != null) {
+            findPoints(queue, rect, x.lb);
+        }
+        if (x.rt != null) {
+            findPoints(queue, rect, x.rt);
+        }
     }
 
     /*
