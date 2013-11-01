@@ -1,4 +1,15 @@
 public class KdTree {
+    private enum Orientation {
+        LeftRight, AboveBelow;
+
+        public Orientation next() {
+            if (this.equals(Orientation.AboveBelow))
+                return Orientation.LeftRight;
+
+            return Orientation.AboveBelow;
+        }
+    }
+
     private static class Node {
         /*
          * the point
@@ -48,22 +59,23 @@ public class KdTree {
      * add the point p to the set (if it is not already in the set)
      */
     public void insert(Point2D p) {
-        root = put(root, p, true);
+        root = put(root, p, Orientation.LeftRight);
     }
 
-    private Node put(Node x, Point2D p, boolean compareX) {
+    private Node put(Node x, Point2D p, Orientation orientation) {
         if (x == null)
             return new Node(p);
         double cmp;
-        if (compareX) {
+        if (orientation == Orientation.LeftRight) {
             cmp = p.x() - x.p.x();
         } else {
             cmp = p.y() - x.p.y();
         }
+        orientation = orientation.next();
         if (cmp < 0)
-            x.lb = put(x.lb, x.p, !compareX);
+            x.lb = put(x.lb, x.p, orientation);
         else if (cmp > 0)
-            x.rt = put(x.rt, x.p, !compareX);
+            x.rt = put(x.rt, x.p, orientation);
         else
             x.p = p;
         return x;
