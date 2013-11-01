@@ -110,8 +110,6 @@ public class BoardTests {
 
     @Test
     public void testTwin() {
-        Board board = createGoalBoard(3);
-
         assertEquals(
                 createAnyBoard(3, new int[] { 2, 1, 3, 4, 5, 6, 7, 8, 0 }),
                 createAnyBoard(3, new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 0 })
