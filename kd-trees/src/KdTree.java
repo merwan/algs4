@@ -164,6 +164,9 @@ public class KdTree {
      * a nearest neighbor in the set to p; null if set is empty
      */
     public Point2D nearest(Point2D p) {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        return root.p;
     }
 }
