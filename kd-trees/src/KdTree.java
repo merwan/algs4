@@ -73,11 +73,11 @@ public class KdTree {
             return x;
         }
         int cmp = compare(p, x.p, orientation);
-        orientation = orientation.next();
+        Orientation nextOrientation = orientation.next();
         if (cmp < 0) {
-            x.lb = put(x.lb, p, orientation);
+            x.lb = put(x.lb, p, nextOrientation);
         } else {
-            x.rt = put(x.rt, p, orientation);
+            x.rt = put(x.rt, p, nextOrientation);
         }
         return x;
     }
@@ -105,11 +105,11 @@ public class KdTree {
             return true;
         }
         int cmp = compare(p, x.p, orientation);
-        orientation = orientation.next();
+        Orientation nextOrientation = orientation.next();
         if (cmp < 0) {
-            return contains(x.lb, p, orientation);
+            return contains(x.lb, p, nextOrientation);
         } else {
-            return contains(x.rt, p, orientation);
+            return contains(x.rt, p, nextOrientation);
         }
     }
 
