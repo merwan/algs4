@@ -18,11 +18,11 @@ public class KdTreeTests {
     }
 
     @Test
-    public void testInsert() {
+    public void testInsertContains() {
         KdTree tree = new KdTree();
-        tree.insert(new Point2D(1, 5));
+        Point2D p = new Point2D(1, 5);
+        tree.insert(p);
 
-        assertFalse(tree.isEmpty());
-        assertEquals(1, tree.size());
+        assertTrue(tree.contains(p));
     }
 }

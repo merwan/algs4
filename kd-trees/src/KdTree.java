@@ -65,27 +65,46 @@ public class KdTree {
     private Node put(Node x, Point2D p, Orientation orientation) {
         if (x == null)
             return new Node(p);
-        double cmp;
-        if (orientation == Orientation.LeftRight) {
-            cmp = p.x() - x.p.x();
-        } else {
-            cmp = p.y() - x.p.y();
-        }
+        int cmp = compare(x.p, p, orientation);
         orientation = orientation.next();
-        if (cmp < 0)
+        if (cmp < 0) {
             x.lb = put(x.lb, x.p, orientation);
-        else if (cmp > 0)
+        } else if (cmp > 0) {
             x.rt = put(x.rt, x.p, orientation);
-        else
+        } else {
             x.p = p;
+        }
         return x;
+    }
+
+    private int compare(Point2D p, Point2D q, Orientation orientation) {
+        if (orientation == Orientation.LeftRight) {
+            return Double.compare(p.x(), q.x());
+        } else {
+            return Double.compare(p.y(), q.y());
+        }
     }
 
     /*
      * does the set contain the point p?
      */
     public boolean contains(Point2D p) {
-        return false;
+        return contains(root, p, Orientation.LeftRight);
+    }
+
+    private boolean contains(Node x, Point2D p, Orientation orientation) {
+        if (x == null) {
+            return false;
+        }
+        int cmp = compare(x.p, p, orientation);
+        orientation = orientation.next();
+        if (cmp < 0) {
+            return contains(x.lb, x.p, orientation);
+        } else if (cmp > 0) {
+            return contains(x.rt, x.p, orientation);
+        } else {
+            return true;
+        }
     }
 
     /*
