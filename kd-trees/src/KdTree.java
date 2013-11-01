@@ -1,4 +1,6 @@
 public class KdTree {
+    private int size = 0;
+
     private enum Orientation {
         LeftRight, AboveBelow;
 
@@ -52,7 +54,7 @@ public class KdTree {
      * number of points in the set
      */
     public int size() {
-        return 0;
+        return size;
     }
 
     /*
@@ -63,16 +65,19 @@ public class KdTree {
     }
 
     private Node put(Node x, Point2D p, Orientation orientation) {
-        if (x == null)
+        if (x == null) {
+            size++;
             return new Node(p);
-        int cmp = compare(x.p, p, orientation);
+        }
+        if (x.p.equals(p)) {
+            return x;
+        }
+        int cmp = compare(p, x.p, orientation);
         orientation = orientation.next();
         if (cmp < 0) {
-            x.lb = put(x.lb, x.p, orientation);
-        } else if (cmp > 0) {
-            x.rt = put(x.rt, x.p, orientation);
+            x.lb = put(x.lb, p, orientation);
         } else {
-            x.p = p;
+            x.rt = put(x.rt, p, orientation);
         }
         return x;
     }
@@ -96,14 +101,15 @@ public class KdTree {
         if (x == null) {
             return false;
         }
-        int cmp = compare(x.p, p, orientation);
+        if (x.p.equals(p)) {
+            return true;
+        }
+        int cmp = compare(p, x.p, orientation);
         orientation = orientation.next();
         if (cmp < 0) {
-            return contains(x.lb, x.p, orientation);
-        } else if (cmp > 0) {
-            return contains(x.rt, x.p, orientation);
+            return contains(x.lb, p, orientation);
         } else {
-            return true;
+            return contains(x.rt, p, orientation);
         }
     }
 

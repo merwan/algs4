@@ -27,6 +27,15 @@ public class KdTreeTests {
     }
 
     @Test
+    public void testInsertSize() {
+        KdTree tree = new KdTree();
+        Point2D p = new Point2D(1, 5);
+        tree.insert(p);
+
+        assertEquals(1, tree.size());
+    }
+
+    @Test
     public void testInsertNotContains() {
         KdTree tree = new KdTree();
         Point2D p = new Point2D(1, 5);
@@ -34,6 +43,29 @@ public class KdTreeTests {
 
         Point2D q = new Point2D(2, 5);
         assertFalse(tree.contains(q));
+    }
+
+    @Test
+    public void testTwoInsertContains() {
+        KdTree tree = new KdTree();
+        Point2D p = new Point2D(1, 5);
+        Point2D q = new Point2D(2, 8);
+        tree.insert(p);
+        tree.insert(q);
+
+        assertTrue(tree.contains(p));
+        assertTrue(tree.contains(q));
+    }
+
+    @Test
+    public void testTwoInsertSize() {
+        KdTree tree = new KdTree();
+        Point2D p = new Point2D(1, 5);
+        Point2D q = new Point2D(2, 8);
+        tree.insert(p);
+        tree.insert(q);
+
+        assertEquals(2, tree.size());
     }
 
     @Test
@@ -52,5 +84,20 @@ public class KdTreeTests {
         assertTrue(tree.contains(q));
         assertTrue(tree.contains(r));
         assertTrue(tree.contains(s));
+    }
+
+    @Test
+    public void testMultipleInsertSize() {
+        KdTree tree = new KdTree();
+        Point2D p = new Point2D(1, 5);
+        Point2D q = new Point2D(2, 5);
+        Point2D r = new Point2D(1, 3);
+        Point2D s = new Point2D(7, 9);
+        tree.insert(p);
+        tree.insert(q);
+        tree.insert(r);
+        tree.insert(s);
+
+        assertEquals(4, tree.size());
     }
 }
