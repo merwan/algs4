@@ -132,6 +132,28 @@ public class KdTree {
      * draw all of the points to standard draw
      */
     public void draw() {
+        draw(root, Orientation.LeftRight);
+    }
+
+    private void draw(Node x, Orientation orientation) {
+        if (x == null) {
+            return;
+        }
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenRadius(0.01);
+        x.p.draw();
+        if (orientation == Orientation.LeftRight) {
+            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.setPenRadius(0.001);
+            StdDraw.line(x.p.x(), x.rect.ymin(), x.p.x(), x.rect.ymax());
+        } else {
+            StdDraw.setPenColor(StdDraw.BLUE);
+            StdDraw.setPenRadius(0.001);
+            StdDraw.line(x.rect.xmin(), x.p.y(), x.rect.xmax(), x.p.y());
+        }
+        Orientation next = orientation.next();
+        draw(x.lb, next);
+        draw(x.rt, next);
     }
 
     /*
@@ -167,6 +189,26 @@ public class KdTree {
         if (isEmpty()) {
             return null;
         }
-        return root.p;
+        Point2D nearest = root.p;
+        double distance = Double.MAX_VALUE;
+        return findNearest(root, p, nearest, distance);
+    }
+
+    private Point2D findNearest(Node x, Point2D p, Point2D nearest,
+            double nearestDistance) {
+        Point2D closest = nearest;
+        if (x.lb != null) {
+            double lbDistance = x.lb.rect.distanceTo(p);
+            if (lbDistance < nearestDistance) {
+                closest = findNearest(x.lb, p, x.lb.p, lbDistance);
+            }
+        }
+        if (x.rt != null) {
+            double rtDistance = x.rt.rect.distanceTo(p);
+            if (rtDistance < nearestDistance) {
+                closest = findNearest(x.rt, p, x.rt.p, rtDistance);
+            }
+        }
+        return closest;
     }
 }

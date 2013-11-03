@@ -103,12 +103,24 @@ public class KdTreeTests {
     }
 
     @Test
-    public void testNearestTwoPoints() {
+    public void testNearestSamePoint() {
         insertPoint(0.1, 0.1);
         Point2D q = insertPoint(0.3, 0.7);
 
-        Point2D nearest = tree.nearest(new Point2D(0.3, 0.5));
+        Point2D nearest = tree.nearest(new Point2D(0.3, 0.7));
 
         assertEquals(q, nearest);
+    }
+
+    @Test
+    public void testNearestExample() {
+        Point2D p = insertPoint(0.7, 0.2);
+        Point2D q = insertPoint(0.5, 0.4);
+        Point2D r = insertPoint(0.2, 0.3);
+        Point2D s = insertPoint(0.4, 0.7);
+        Point2D t = insertPoint(0.9, 0.6);
+
+        Point2D nearest = tree.nearest(new Point2D(0.7, 0.2));
+        assertEquals(p, nearest);
     }
 }
