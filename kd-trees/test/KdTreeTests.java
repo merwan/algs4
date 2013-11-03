@@ -122,5 +122,7 @@ public class KdTreeTests {
 
         Point2D nearest = tree.nearest(new Point2D(0.7, 0.2));
         assertEquals(p, nearest);
+        nearest = tree.nearest(new Point2D(0.5, 0.4));
+        assertEquals(q, nearest);
     }
 }

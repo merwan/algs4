@@ -190,23 +190,23 @@ public class KdTree {
             return null;
         }
         Point2D nearest = root.p;
-        double distance = Double.MAX_VALUE;
-        return findNearest(root, p, nearest, distance);
+        return findNearest(root, p, nearest);
     }
 
-    private Point2D findNearest(Node x, Point2D p, Point2D nearest,
-            double nearestDistance) {
+    private Point2D findNearest(Node x, Point2D p, Point2D nearest) {
         Point2D closest = nearest;
+        double distance = p.distanceSquaredTo(nearest);
         if (x.lb != null) {
-            double lbDistance = x.lb.rect.distanceTo(p);
-            if (lbDistance < nearestDistance) {
-                closest = findNearest(x.lb, p, x.lb.p, lbDistance);
+            double lbDistance = x.lb.rect.distanceSquaredTo(p);
+            if (lbDistance < distance) {
+                closest = findNearest(x.lb, p, x.lb.p);
             }
         }
+        distance = p.distanceSquaredTo(closest);
         if (x.rt != null) {
-            double rtDistance = x.rt.rect.distanceTo(p);
-            if (rtDistance < nearestDistance) {
-                closest = findNearest(x.rt, p, x.rt.p, rtDistance);
+            double rtDistance = x.rt.rect.distanceSquaredTo(p);
+            if (rtDistance < distance) {
+                closest = findNearest(x.rt, p, x.rt.p);
             }
         }
         return closest;
