@@ -162,8 +162,9 @@ public class KdTree {
     public Iterable<Point2D> range(RectHV rect) {
         Queue<Point2D> queue = new Queue<Point2D>();
 
-        findPoints(queue, rect, root);
-
+        if (!isEmpty()) {
+            findPoints(queue, rect, root);
+        }
         return queue;
     }
 
