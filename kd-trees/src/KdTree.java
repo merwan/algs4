@@ -32,7 +32,6 @@ public class KdTree {
 
         public Node(Point2D p) {
             this.p = p;
-            this.rect = new RectHV(0, 0, 1, 1);
         }
     }
 
@@ -62,6 +61,12 @@ public class KdTree {
      * add the point p to the set (if it is not already in the set)
      */
     public void insert(Point2D p) {
+        if (isEmpty()) {
+            root = new Node(p);
+            root.rect = new RectHV(0, 0, 1, 1);
+            size++;
+            return;
+        }
         root = put(root, p, Orientation.LeftRight);
     }
 
@@ -77,21 +82,25 @@ public class KdTree {
         Orientation nextOrientation = orientation.next();
         if (cmp < 0) {
             x.lb = put(x.lb, p, nextOrientation);
-            if (orientation == Orientation.LeftRight) {
-                x.lb.rect = new RectHV(x.rect.xmin(), x.rect.ymin(), x.p.x(),
-                        x.rect.ymax());
-            } else {
-                x.lb.rect = new RectHV(x.rect.xmin(), x.rect.ymin(),
-                        x.rect.xmax(), x.p.y());
+            if (x.lb.rect == null) {
+                if (orientation == Orientation.LeftRight) {
+                    x.lb.rect = new RectHV(x.rect.xmin(), x.rect.ymin(),
+                            x.p.x(), x.rect.ymax());
+                } else {
+                    x.lb.rect = new RectHV(x.rect.xmin(), x.rect.ymin(),
+                            x.rect.xmax(), x.p.y());
+                }
             }
         } else {
             x.rt = put(x.rt, p, nextOrientation);
-            if (orientation == Orientation.LeftRight) {
-                x.rt.rect = new RectHV(x.p.x(), x.rect.ymin(), x.rect.xmax(),
-                        x.rect.ymax());
-            } else {
-                x.rt.rect = new RectHV(x.rect.xmin(), x.p.y(), x.rect.xmax(),
-                        x.rect.ymax());
+            if (x.rt.rect == null) {
+                if (orientation == Orientation.LeftRight) {
+                    x.rt.rect = new RectHV(x.p.x(), x.rect.ymin(),
+                            x.rect.xmax(), x.rect.ymax());
+                } else {
+                    x.rt.rect = new RectHV(x.rect.xmin(), x.p.y(),
+                            x.rect.xmax(), x.rect.ymax());
+                }
             }
         }
         return x;
