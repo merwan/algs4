@@ -204,9 +204,13 @@ public class KdTree {
             closest = x.p;
             closestDistance = distance;
         }
-        closest = findNearest(x.lb, p, closest, closestDistance);
-        closestDistance = closest.distanceSquaredTo(p);
-        closest = findNearest(x.rt, p, closest, closestDistance);
+        if (x.lb != null && x.lb.rect.distanceSquaredTo(p) < closestDistance) {
+            closest = findNearest(x.lb, p, closest, closestDistance);
+            closestDistance = closest.distanceSquaredTo(p);
+        }
+        if (x.rt != null && x.rt.rect.distanceSquaredTo(p) < closestDistance) {
+            closest = findNearest(x.rt, p, closest, closestDistance);
+        }
         return closest;
     }
 }
