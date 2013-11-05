@@ -199,11 +199,12 @@ public class KdTree {
         if (isEmpty()) {
             return null;
         }
-        return findNearest(root, p, root.p, Double.MAX_VALUE);
+        return findNearest(root, p, root.p, Double.MAX_VALUE,
+                Orientation.LeftRight);
     }
 
     private Point2D findNearest(Node x, Point2D p, Point2D nearest,
-            double nearestDistance) {
+            double nearestDistance, Orientation orientation) {
         if (x == null) {
             return nearest;
         }
@@ -214,13 +215,36 @@ public class KdTree {
             closest = x.p;
             closestDistance = distance;
         }
-        if (x.lb != null && x.lb.rect.distanceSquaredTo(p) < closestDistance) {
-            closest = findNearest(x.lb, p, closest, closestDistance);
+        Node first, second;
+        if (orientation == Orientation.LeftRight) {
+            if (p.x() < x.p.x()) {
+                first = x.lb;
+                second = x.rt;
+            } else {
+                first = x.rt;
+                second = x.lb;
+            }
+        } else {
+            if (p.y() < x.p.y()) {
+                first = x.lb;
+                second = x.rt;
+            } else {
+                first = x.rt;
+                second = x.lb;
+            }
+        }
+        Orientation nextOrientation = orientation.next();
+        if (first != null && first.rect.distanceSquaredTo(p) < closestDistance) {
+            closest = findNearest(first, p, closest, closestDistance,
+                    nextOrientation);
             closestDistance = closest.distanceSquaredTo(p);
         }
-        if (x.rt != null && x.rt.rect.distanceSquaredTo(p) < closestDistance) {
-            closest = findNearest(x.rt, p, closest, closestDistance);
+        if (second != null
+                && second.rect.distanceSquaredTo(p) < closestDistance) {
+            closest = findNearest(second, p, closest, closestDistance,
+                    nextOrientation);
         }
+
         return closest;
     }
 }
